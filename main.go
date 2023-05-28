@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"strings"
 
 	"github.com/Shalekar/youtube-autoup/pkg/content"
 	"github.com/Shalekar/youtube-autoup/pkg/tts"
@@ -11,14 +12,14 @@ import (
 )
 
 func main() {
-	content := content.GetContent("AMD")
+	content := content.GetContent("AMD", nil)
 	var contentLen int
 	if 1000 >= len(content.Content) {
 		contentLen = len(content.Content) - 1
 	} else {
 		contentLen = 1000
 	}
-	file := tts.GetTTSFile(content.Content[:contentLen], "change with key")
+	file := tts.GetTTSFile(content.Title+content.Content[:contentLen], "change with key")
 	client := upload.GetClient(youtube.YoutubeUploadScope)
 	service, err := youtube.New(client)
 	if err != nil {
@@ -30,5 +31,7 @@ func main() {
 	if nil != err1 {
 		log.Fatalf("Error creating video: %v", err1)
 	}
-	upload.Upload(service, "output.mp4", "teste"+file, "testDesc #Shorts", "22", "test1,test2", "public")
+	videoTitle := content.Title[:100]
+	videoTitle = videoTitle[:strings.LastIndex(videoTitle, " ")]
+	upload.Upload(service, "output.mp4", videoTitle, "testDesc #Shorts", "22", "test1,test2", "public")
 }

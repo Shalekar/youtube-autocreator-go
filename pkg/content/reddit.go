@@ -10,7 +10,7 @@ import (
 	"github.com/Shalekar/youtube-autoup/pkg/structures"
 )
 
-func GetContent(subReddit string) *structures.Content {
+func GetContent(subReddit string, translate func(string) string) *structures.Content {
 	client := &http.Client{}
 	URLBase := "https://www.reddit.com/r/%s/top.json?limit=10&after=%s"
 	URL := fmt.Sprintf("https://www.reddit.com/r/%s/top.json?limit=10", subReddit)
@@ -57,5 +57,9 @@ func GetContent(subReddit string) *structures.Content {
 	content.Content = strings.Join(strings.Fields(acceptedPost.Data.Selftext), " ")
 	content.Source = "reddit"
 	content.Title = acceptedPost.Data.Title
+	if nil != translate {
+		content.Content = translate(content.Content)
+		content.Title = translate(content.Title)
+	}
 	return &content
 }

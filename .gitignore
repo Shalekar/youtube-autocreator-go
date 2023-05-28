@@ -21,6 +21,8 @@
 go.work
 client_secret.json
 *.mp4
+*.webm
 *.mp3
 */*.mp3
 .vscode/
+mainModifiedExample.go
