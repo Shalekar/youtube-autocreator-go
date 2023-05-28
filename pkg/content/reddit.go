@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/Shalekar/youtube-autoup/pkg/structures"
 )
@@ -53,7 +54,7 @@ func GetContent(subReddit string) *structures.Content {
 		log.Println("No text post available")
 		return nil
 	}
-	content.Content = acceptedPost.Data.Selftext
+	content.Content = strings.Join(strings.Fields(acceptedPost.Data.Selftext), " ")
 	content.Source = "reddit"
 	content.Title = acceptedPost.Data.Title
 	return &content
