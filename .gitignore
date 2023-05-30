@@ -26,3 +26,5 @@ client_secret.json
 */*.mp3
 .vscode/
 mainModifiedExample.go
+.zip
+*/*.zip
